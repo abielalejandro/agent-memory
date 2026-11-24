@@ -94,8 +94,8 @@ node src/indexer.js nombre-del-proyecto
 
 ```bash
 claude mcp add agent-memory --scope user -- \
-  node --env-file=/home/main/prg/romerd/agent-memory/.env \
-  /home/main/prg/romerd/agent-memory/src/mcpServer.js
+  node --env-file=<PATH>/agent-memory/.env \
+  <PATH>/agent-memory/src/mcpServer.js
 ```
 
 - `--scope user`: disponible en todos tus proyectos (sin el flag, solo en la carpeta actual).
