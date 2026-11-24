@@ -1,0 +1,22 @@
+{
+  "name": "agent-memory",
+  "version": "0.1.0",
+  "description": "Sistema de memoria de conocimiento para agentes de codigo (Claude Code, Codex, etc) sobre multiples proyectos Java/Spring Boot",
+  "type": "module",
+  "main": "src/api.js",
+  "scripts": {
+    "index": "node src/indexer.js",
+    "api": "node src/api.js",
+    "mcp": "node src/mcpServer.js",
+    "test": "node --test src/chunker.test.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@qdrant/js-client-rest": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "fast-glob": "^3.3.2",
+    "zod": "^3.23.8"
+  }
+}

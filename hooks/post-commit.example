@@ -1,0 +1,14 @@
+#!/bin/sh
+# .git/hooks/post-commit
+# Reindexa este proyecto en la base de conocimiento despues de cada commit.
+# Instalacion: copiar este archivo a .git/hooks/post-commit dentro de cada
+# proyecto (sin extension .example) y darle permiso de ejecucion:
+#   chmod +x .git/hooks/post-commit
+#
+# Ajustar AGENT_MEMORY_DIR a la ruta real donde clonaste/copiaste este
+# proyecto (agent-memory) en tu maquina.
+
+AGENT_MEMORY_DIR="/ruta/absoluta/a/agent-memory"
+PROJECT_NAME=$(basename "$(git rev-parse --show-toplevel)")
+
+cd "$AGENT_MEMORY_DIR" && node src/indexer.js "$PROJECT_NAME" > /tmp/agent-memory-reindex.log 2>&1 &

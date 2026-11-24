@@ -1,0 +1,39 @@
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: agent-memory-qdrant
+    ports:
+      - "6333:6333"   # REST API
+      - "6334:6334"   # gRPC
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+    restart: unless-stopped
+
+  # Embeddings locales. Solo corre mientras el stack este levantado
+  # (docker compose up -d / docker compose stop).
+  ollama:
+    image: ollama/ollama:0.32.5
+    container_name: agent-memory-ollama
+    ports:
+      - "127.0.0.1:11434:11434"   # sin auth: solo localhost
+    volumes:
+      - ollama_models:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      retries: 12
+    restart: unless-stopped
+
+  # Descarga el modelo de embeddings la primera vez (si ya esta, no baja nada) y termina.
+  ollama-pull:
+    image: ollama/ollama:0.32.5
+    environment:
+      - OLLAMA_HOST=ollama:11434
+    entrypoint: ["ollama", "pull", "nomic-embed-text"]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+
+volumes:
+  ollama_models:
